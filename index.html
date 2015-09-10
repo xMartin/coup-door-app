@@ -1,0 +1,88 @@
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			height: 100%;
+			width: 100%;
+		}
+		body {
+			text-align: center;
+			font-size: x-large;
+			font-family: sans-serif;
+		}
+		main {
+			position: absolute;
+			top: 30%;
+			width: 100%;
+			vertical-align: middle;
+		}
+		#door {
+			font-size: inherit;
+			margin-bottom: 3em;
+		}
+		.success #status {
+			color: green;
+		}
+		.error #status {
+			color: red;
+		}
+	</style>
+</head>
+
+<body class="idle">
+	<main>
+		<button id="door">open</button>
+		<div id="status"></div>
+	</main>
+
+	<script>
+		var doorButton = document.getElementById('door');
+		var statusDisplay = document.getElementById('status');
+
+		var idleTimer;
+
+		function openDoor () {
+			setState('pending');
+
+			var script = document.createElement('script');
+			script.src = 'http://192.168.2.5/letmein';
+			script.onload = function () {
+				setState('success');
+			};
+			script.onerror = function () {
+				setState('error');
+			};
+			document.getElementsByTagName('head')[0].appendChild(script);
+		}
+
+		function setState (state) {
+			clearTimeout(idleTimer);
+
+			document.body.classList.remove('pending', 'success', 'error', 'idle');
+			document.body.classList.add(state);
+
+			doorButton.disabled = state === 'pending';
+
+			statusDisplay.innerHTML = {
+				idle: '',
+				pending: '…',
+				success: 'success',
+				error: 'error'
+			}[state];
+
+			if (state === 'success' || state === 'error') {
+				idleTimer = setTimeout(function () {
+					setState('idle');
+				}, 1600);
+			}
+		}
+
+		doorButton.addEventListener('click', openDoor);
+	</script>
+</body>
