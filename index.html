@@ -39,13 +39,32 @@
 	<main>
 		<button id="door">open</button>
 		<div id="status"></div>
+		<br />
+		...or open every X seconds (minimum of 30):
+		<input id="doorIntervalInput" />
+		<button id="doorIntervalButton">go</button>
 	</main>
 
 	<script>
+		var intervaltime;
 		var doorButton = document.getElementById('door');
 		var statusDisplay = document.getElementById('status');
 
+		var doorIntervalInput = document.getElementById('doorIntervalInput');
+		var doorIntervalButton = document.getElementById('doorIntervalButton');
+
 		var idleTimer;
+
+		function setDoorOpenInterval () {
+			if (window.doorInterval) {
+				window.clearInterval(window.doorInterval);
+			}
+			var time = doorIntervalInput.value;
+			if (time < 30) {
+				time = 30;
+			} 
+			window.setInterval(openDoor, time * 1000);
+		}
 
 		function openDoor () {
 			setState('pending');
@@ -83,6 +102,7 @@
 			}
 		}
 
+		doorIntervalButton.addEventListener('click', setDoorOpenInterval);
 		doorButton.addEventListener('click', openDoor);
 	</script>
 </body>
