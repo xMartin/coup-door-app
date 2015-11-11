@@ -11,8 +11,14 @@ function openDoor () {
 	iFrame.style.display = 'none';
 	iFrame.onload = function () {
 		document.body.removeChild(iFrame);
+		clearTimeout(timeout);
 		setState('success');
 	};
+	var timeout = setTimeout(function () {
+		iFrame.contentWindow.stop();
+		document.body.removeChild(iFrame);
+		setState('error');
+	}, 2000);
 	document.body.appendChild(iFrame);
 }
 
