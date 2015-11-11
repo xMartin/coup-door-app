@@ -111,7 +111,7 @@ body.error {
 @-webkit-keyframes p-anima {
 	0% {
 		-webkit-transform: translateY(0em);
-		-o-transform: translateY(0em)
+		-o-transform: translateY(0em);
 		transform: translateY(0em);
 	}
 	100% {
