@@ -6,15 +6,14 @@ var idleTimer;
 function openDoor () {
 	setState('pending');
 
-	var script = document.createElement('script');
-	script.src = 'http://192.168.2.5/letmein';
-	script.onload = function () {
+	var iFrame = document.createElement('iframe');
+	iFrame.src = 'http://192.168.2.5/letmein';
+	iFrame.style.display = 'none';
+	iFrame.onload = function () {
+		document.body.removeChild(iFrame);
 		setState('success');
 	};
-	script.onerror = function () {
-		setState('error');
-	};
-	document.getElementsByTagName('head')[0].appendChild(script);
+	document.body.appendChild(iFrame);
 }
 
 function setState (state) {
