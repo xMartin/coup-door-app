@@ -28,7 +28,7 @@ main {
 	margin-bottom: 4em;
 	transition: all 0.2s ease-in;
 }
-#door:hover,
+.mouse #door:hover,
 #door:disabled {
 	background-color: #444;
 	color: white;

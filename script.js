@@ -44,4 +44,9 @@ function setState (state) {
 	}
 }
 
+var hasTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints > 0;
+if (!hasTouch) {
+	document.body.classList.add('mouse');
+}
+
 doorButton.addEventListener('click', openDoor);
