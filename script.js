@@ -6,20 +6,22 @@ var idleTimer;
 function openDoor () {
 	setState('pending');
 
-	var iFrame = document.createElement('iframe');
-	iFrame.src = 'http://192.168.2.5/letmein';
-	iFrame.style.display = 'none';
-	iFrame.onload = function () {
-		document.body.removeChild(iFrame);
+	var script = document.createElement('script');
+	script.src = 'http://192.168.2.5/letmein';
+	script.onload = function () {
 		clearTimeout(timeout);
 		setState('success');
 	};
+	script.onerror = function () {
+		clearTimeout(timeout);
+		setState('error');
+	};
 	var timeout = setTimeout(function () {
-		iFrame.contentWindow.stop();
-		document.body.removeChild(iFrame);
+		script.onload = null;
+		script.onerror = null;
 		setState('error');
 	}, 2000);
-	document.body.appendChild(iFrame);
+	document.getElementsByTagName('head')[0].appendChild(script);
 }
 
 function setState (state) {
