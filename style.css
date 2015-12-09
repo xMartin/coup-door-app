@@ -51,6 +51,10 @@ main {
 	font-weight: bold;
 }
 
+#status p {
+	font-size: 70%;
+}
+
 /*Pending Styles */
 body.pending {
 	background-color: #dd77dd;

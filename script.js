@@ -36,13 +36,13 @@ function setState (state) {
 		idle: '',
 		pending: '<div class="dots"><div></div><div></div><div></div></div>',
 		success: 'Woohoo!',
-		error: 'Sorry, you\'re not on the list!'
+		error: 'Couldn’t open. <p>Are you connected to the co.up network (“coup” or “coup slow”)?</p>'
 	}[state];
 
 	if (state === 'success' || state === 'error') {
 		idleTimer = setTimeout(function () {
 			setState('idle');
-		}, 1600);
+		}, state === 'error' ? 3000 : 1600);
 	}
 }
 
